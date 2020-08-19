@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { RemoveUserDto } from './dtos/remove-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users')
@@ -29,9 +28,9 @@ export class UsersController {
     this.usersService.updatePassword(updateUserPasswordDto);
   }
 
-  @Delete(':username')
-  async remove(@Param() removeUserDto: RemoveUserDto) {
-    this.usersService.remove(removeUserDto);
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    this.usersService.remove(id);
   }
 
   @Get('/search')

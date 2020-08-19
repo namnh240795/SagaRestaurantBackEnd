@@ -2,8 +2,14 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateOrderDto {
   @ApiProperty()
-  username: string;
+  user_id: string;
 
   @ApiProperty()
-  password: string;
+  amount: Number;
+
+  @ApiProperty()
+  note: string;
+
+  @ApiProperty()
+  address: string;
 }

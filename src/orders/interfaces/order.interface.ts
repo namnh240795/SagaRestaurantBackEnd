@@ -1,4 +1,6 @@
 export interface Order {
-  username: string;
-  password: string;
+  user_id: string;
+  amount: Number;
+  note: string;
+  address: string;
 }

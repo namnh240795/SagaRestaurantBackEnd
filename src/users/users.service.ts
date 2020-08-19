@@ -1,7 +1,6 @@
 import { UpdateUserPasswordDto } from './dtos/update-user.dto';
 import { User } from './interfaces/user.inteface';
 import { Injectable } from '@nestjs/common';
-import { RemoveUserDto } from './dtos/remove-user.dto';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 
 @Injectable()
@@ -24,7 +23,7 @@ export class UsersService {
     }
   }
 
-  remove(removeUserDto: RemoveUserDto) {}
+  remove(id: string) {}
 
   async search(): Promise<User[]> {
     const result = await FIREBASE_STORAGE_DB.collection('users')
