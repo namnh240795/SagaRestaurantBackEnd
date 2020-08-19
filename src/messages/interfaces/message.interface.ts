@@ -1,4 +1,4 @@
-export interface Order {
+export interface Message {
   username: string;
   password: string;
 }
