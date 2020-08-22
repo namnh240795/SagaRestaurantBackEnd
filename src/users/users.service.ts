@@ -43,6 +43,11 @@ export class UsersService {
     const result = await FIREBASE_STORAGE_DB.collection('users')
       .limit(10)
       .get();
-    return result.docs.map(user => ({ id: user.id, ...user.data() }));
+
+    return result.docs.map(user => {
+      const userInfo = user.data();
+      delete userInfo.password;
+      return { id: user.id, ...userInfo };
+    });
   }
 }
