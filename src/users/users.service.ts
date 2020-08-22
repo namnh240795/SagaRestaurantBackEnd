@@ -1,3 +1,4 @@
+import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserPasswordDto } from './dtos/update-user.dto';
 import { User } from './interfaces/user.inteface';
 import { Injectable } from '@nestjs/common';
@@ -5,34 +6,43 @@ import FIREBASE_STORAGE_DB from 'src/firebase';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [];
-
-  async create(user: User) {
-    const result = await FIREBASE_STORAGE_DB.collection('ADMIN')
-      .doc('users')
-      .set(user);
-    console.log('result', result);
-  }
-
-  updatePassword(updateUserPasswordDto: UpdateUserPasswordDto) {
-    const user = this.users.find(
-      e => e.username === updateUserPasswordDto.username,
+  async create(createUserDto: CreateUserDto) {
+    const result = await FIREBASE_STORAGE_DB.collection('users').add(
+      createUserDto,
     );
-    if (user) {
-      user.password = updateUserPasswordDto.password;
-    }
+    return result.id;
   }
 
-  remove(id: string) {}
+  async updatePassword(
+    id: string,
+    updateUserPasswordDto: UpdateUserPasswordDto,
+  ) {
+    const userRef = FIREBASE_STORAGE_DB.collection('users').doc(id);
+    const user = await userRef.get();
+    if (!user.exists) {
+      return 'Không tìm thấy nhãn';
+    }
+
+    await userRef.update({ password: updateUserPasswordDto.newPassword });
+
+    return 'Cập nhật mật khẩu thành công';
+  }
+
+  async remove(id: string) {
+    const userRef = FIREBASE_STORAGE_DB.collection('users').doc(id);
+    const user = await userRef.get();
+    if (!user.exists) {
+      return 'Không tìm thấy nhãn';
+    }
+
+    await userRef.delete();
+    return 'Xoá user thành công';
+  }
 
   async search(): Promise<User[]> {
     const result = await FIREBASE_STORAGE_DB.collection('users')
       .limit(10)
       .get();
-
-    result.forEach(doc => {
-      console.log(doc.id, '=>', doc.data());
-    });
-    return this.users;
+    return result.docs.map(user => ({ id: user.id, ...user.data() }));
   }
 }

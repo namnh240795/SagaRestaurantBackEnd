@@ -20,17 +20,20 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    this.usersService.create(createUserDto);
+    return this.usersService.create(createUserDto);
   }
 
-  @Put()
-  async update(@Body() updateUserPasswordDto: UpdateUserPasswordDto) {
-    this.usersService.updatePassword(updateUserPasswordDto);
+  @Put('/change_password/:id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserPasswordDto: UpdateUserPasswordDto,
+  ) {
+    return this.usersService.updatePassword(id, updateUserPasswordDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    this.usersService.remove(id);
+    return this.usersService.remove(id);
   }
 
   @Get('/search')

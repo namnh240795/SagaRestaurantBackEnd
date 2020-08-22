@@ -26,6 +26,7 @@
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/swagger": "^4.5.12",
+    "bcrypt": "^5.0.0",
     "firebase-admin": "^9.1.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
