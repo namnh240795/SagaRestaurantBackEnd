@@ -4,12 +4,15 @@ import { User } from './interfaces/user.inteface';
 import { Injectable } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 
+const bcrypt = require('bcrypt');
+const saltRounds = 12;
+
 @Injectable()
 export class UsersService {
   async create(createUserDto: CreateUserDto) {
-    const result = await FIREBASE_STORAGE_DB.collection('users').add(
-      createUserDto,
-    );
+    const password = await bcrypt.hash(createUserDto.password, saltRounds);
+    const user = { ...createUserDto, password };
+    const result = await FIREBASE_STORAGE_DB.collection('users').add(user);
     return result.id;
   }
 
