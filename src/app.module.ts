@@ -11,10 +11,12 @@ import { TasksController } from './tasks/tasks.controller';
 import { TasksService } from './tasks/tasks.service';
 import { MessagesController } from './messages/messages.controller';
 import { MessagesService } from './messages/messages.service';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [],
-  controllers: [AppController, UsersController, OrdersController, TagsController, TasksController, MessagesController],
-  providers: [AppService, UsersService, OrdersService, TagsService, TasksService, MessagesService],
+  controllers: [AppController, UsersController, OrdersController, TagsController, TasksController, MessagesController, AuthController],
+  providers: [AppService, UsersService, OrdersService, TagsService, TasksService, MessagesService, AuthService],
 })
 export class AppModule {}

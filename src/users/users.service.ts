@@ -1,7 +1,7 @@
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserPasswordDto } from './dtos/update-user.dto';
 import { User } from './interfaces/user.inteface';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 
 const bcrypt = require('bcrypt');

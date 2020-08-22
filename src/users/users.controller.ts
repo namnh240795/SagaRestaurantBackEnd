@@ -8,13 +8,16 @@ import {
   Put,
   Delete,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth.guard';
 
 @ApiTags('users')
 @Controller('users')
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
