@@ -1,16 +1,14 @@
+import { bcrypt, SALT_ROUNDS } from 'src/configs';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserPasswordDto } from './dtos/update-user.dto';
 import { User } from './interfaces/user.inteface';
 import { Injectable, UseGuards } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 
-const bcrypt = require('bcrypt');
-const saltRounds = 12;
-
 @Injectable()
 export class UsersService {
   async create(createUserDto: CreateUserDto) {
-    const password = await bcrypt.hash(createUserDto.password, saltRounds);
+    const password = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);
     const user = { ...createUserDto, password };
     const result = await FIREBASE_STORAGE_DB.collection('users').add(user);
     return result.id;
@@ -23,10 +21,14 @@ export class UsersService {
     const userRef = FIREBASE_STORAGE_DB.collection('users').doc(id);
     const user = await userRef.get();
     if (!user.exists) {
-      return 'Không tìm thấy nhãn';
+      return 'Không tìm thấy user';
     }
 
-    await userRef.update({ password: updateUserPasswordDto.newPassword });
+    const newPassword = await bcrypt.hash(
+      updateUserPasswordDto.password,
+      SALT_ROUNDS,
+    );
+    await userRef.update({ password: newPassword });
 
     return 'Cập nhật mật khẩu thành công';
   }
@@ -35,7 +37,7 @@ export class UsersService {
     const userRef = FIREBASE_STORAGE_DB.collection('users').doc(id);
     const user = await userRef.get();
     if (!user.exists) {
-      return 'Không tìm thấy nhãn';
+      return 'Không tìm thấy user';
     }
 
     await userRef.delete();
