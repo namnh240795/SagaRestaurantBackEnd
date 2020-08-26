@@ -4,6 +4,7 @@ import { UpdateUserPasswordDto } from './dtos/update-user.dto';
 import { User } from './interfaces/user.inteface';
 import { Injectable, UseGuards } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
+import { strings } from 'src/strings';
 
 @Injectable()
 export class UsersService {
@@ -21,7 +22,7 @@ export class UsersService {
     const userRef = FIREBASE_STORAGE_DB.collection('users').doc(id);
     const user = await userRef.get();
     if (!user.exists) {
-      return 'Không tìm thấy user';
+      return strings.user.notFound;
     }
 
     const newPassword = await bcrypt.hash(
@@ -30,18 +31,18 @@ export class UsersService {
     );
     await userRef.update({ password: newPassword });
 
-    return 'Cập nhật mật khẩu thành công';
+    return strings.user.updatePasswordSuccess;
   }
 
   async remove(id: string) {
     const userRef = FIREBASE_STORAGE_DB.collection('users').doc(id);
     const user = await userRef.get();
     if (!user.exists) {
-      return 'Không tìm thấy user';
+      return strings.user.notFound;
     }
 
     await userRef.delete();
-    return 'Xoá user thành công';
+    return strings.user.deleteSuccess;
   }
 
   async search(): Promise<User[]> {

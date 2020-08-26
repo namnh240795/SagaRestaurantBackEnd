@@ -4,6 +4,7 @@ import { Tag } from './interfaces/tag.interface';
 import { Injectable } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 import { doc } from 'prettier';
+import { strings } from 'src/strings';
 
 @Injectable()
 export class TagsService {
@@ -18,23 +19,23 @@ export class TagsService {
     const tagRef = FIREBASE_STORAGE_DB.collection('tags').doc(id);
     const tag = await tagRef.get();
     if (!tag.exists) {
-      return 'Không tìm thấy nhãn';
+      return strings.tag.notFound;
     }
 
     await tagRef.update(updateTagDto);
 
-    return 'Cập nhật nhãn thành công';
+    return strings.tag.updateSuccess;
   }
 
   async removeTag(id: string) {
     const tagRef = FIREBASE_STORAGE_DB.collection('tags').doc(id);
     const tag = await tagRef.get();
     if (!tag.exists) {
-      return 'Không tìm thấy nhãn';
+      return strings.tag.notFound;
     }
 
     await tagRef.delete();
-    return 'Xoá nhãn thành công';
+    return strings.tag.deleteSuccess;
   }
 
   async getTags(): Promise<Tag[]> {

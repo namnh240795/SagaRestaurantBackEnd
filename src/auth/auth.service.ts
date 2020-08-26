@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 import { bcrypt } from 'src/configs';
 import { JwtService } from '@nestjs/jwt';
+import { strings } from 'src/strings';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
       .get();
 
     if (users.empty) {
-      return 'Sai tên đăng nhập hoặc mật khẩu';
+      return strings.auth.loginFailed;
     }
 
     const user = users.docs.map(user => {
@@ -30,7 +31,7 @@ export class AuthService {
     );
 
     if (!matchPassword) {
-      return 'Sai tên đăng nhập hoặc mật khẩu';
+      return strings.auth.loginFailed;
     }
 
     delete user.password;
