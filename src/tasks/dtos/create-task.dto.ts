@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTaskDto {
   @ApiProperty()
-  username: string;
+  phone: string;
 
   @ApiProperty()
-  password: string;
+  status: string;
 }

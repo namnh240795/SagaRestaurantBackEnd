@@ -1,4 +1,4 @@
 export interface Task {
-  username: string;
-  password: string;
+  phone: string;
+  status: string;
 }

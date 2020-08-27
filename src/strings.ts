@@ -17,4 +17,9 @@ export const strings = {
     updateSuccess: 'Cập nhật chức vụ thành công',
     deleteSuccess: 'Xoá chức vụ thàng công',
   },
+  task: {
+    notFound: 'Không tìm thấy công việc',
+    updateSuccess: 'Cập nhật công việc thành công',
+    deleteSuccess: 'Xoá công việc thàng công',
+  },
 };
