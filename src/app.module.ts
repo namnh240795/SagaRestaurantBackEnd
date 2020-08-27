@@ -14,6 +14,8 @@ import { MessagesService } from './messages/messages.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { RolesService } from './roles/roles.service';
+import { RolesController } from './roles/roles.controller';
 
 @Module({
   imports: [AuthModule],
@@ -24,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
     TagsController,
     TasksController,
     MessagesController,
+    RolesController,
   ],
   providers: [
     AppService,
@@ -32,6 +35,7 @@ import { AuthModule } from './auth/auth.module';
     TagsService,
     TasksService,
     MessagesService,
+    RolesService,
   ],
 })
 export class AppModule {}

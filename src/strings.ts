@@ -12,4 +12,9 @@ export const strings = {
   auth: {
     loginFailed: 'Sai tên đăng nhập hoặc mật khẩu',
   },
+  role: {
+    notFound: 'Không tìm thấy chức vụ',
+    updateSuccess: 'Cập nhật chức vụ thành công',
+    deleteSuccess: 'Xoá chức vụ thàng công',
+  },
 };
