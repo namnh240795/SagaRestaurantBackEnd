@@ -1,4 +1,5 @@
 export interface Message {
-  username: string;
-  password: string;
+  message: string;
+  insertedAt: string;
+  idTask: string;
 }

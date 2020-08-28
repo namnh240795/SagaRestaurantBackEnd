@@ -2,8 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateMessageDto {
   @ApiProperty()
-  username: string;
+  message: string;
 
   @ApiProperty()
-  password: string;
+  insertedAt: string;
+
+  @ApiProperty()
+  idTask: string;
 }

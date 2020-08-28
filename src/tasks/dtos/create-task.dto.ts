@@ -6,4 +6,7 @@ export class CreateTaskDto {
 
   @ApiProperty()
   status: string;
+
+  @ApiProperty()
+  name: string;
 }
