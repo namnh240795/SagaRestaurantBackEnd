@@ -10,14 +10,14 @@ import {
   Put,
   Param,
   Delete,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth.guard';
+// import { AuthGuard } from 'src/auth.guard';
 
 @ApiTags('tags')
 @Controller('tags')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 
@@ -36,7 +36,7 @@ export class TagsController {
     return this.tagsService.removeTag(id);
   }
 
-  @Get()
+  @Get('/search')
   async findAll(): Promise<Tag[]> {
     return this.tagsService.getTags();
   }
