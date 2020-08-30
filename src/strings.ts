@@ -3,6 +3,7 @@ export const strings = {
     notFound: 'Không tìm thấy user',
     updatePasswordSuccess: 'Cập nhật mật khẩu thành công',
     deleteSuccess: 'Xoá user thành công',
+    usernameExists: 'Tên đăng nhập đã tồn tại',
   },
   tag: {
     notFound: 'Không tìm thấy nhãn',

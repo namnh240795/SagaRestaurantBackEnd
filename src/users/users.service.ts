@@ -1,18 +1,27 @@
 import { bcrypt, SALT_ROUNDS } from 'src/configs';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserPasswordDto } from './dtos/update-user.dto';
-import { User } from './interfaces/user.inteface';
-import { Injectable, UseGuards } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 import { strings } from 'src/strings';
 
 @Injectable()
 export class UsersService {
   async create(createUserDto: CreateUserDto) {
+    const usersRef = FIREBASE_STORAGE_DB.collection('users');
+    const users = await usersRef
+      .where('username', '==', createUserDto.username)
+      .get();
+
+    if (!users.empty) {
+      return { message: strings.user.usernameExists };
+    }
+
     const password = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);
     const user = { ...createUserDto, password };
     const result = await FIREBASE_STORAGE_DB.collection('users').add(user);
-    return result.id;
+
+    return { data: result.id };
   }
 
   async updatePassword(
@@ -38,22 +47,24 @@ export class UsersService {
     const userRef = FIREBASE_STORAGE_DB.collection('users').doc(id);
     const user = await userRef.get();
     if (!user.exists) {
-      return strings.user.notFound;
+      return { message: strings.user.notFound };
     }
 
     await userRef.delete();
-    return strings.user.deleteSuccess;
+    return { data: strings.user.deleteSuccess };
   }
 
-  async search(): Promise<User[]> {
-    const result = await FIREBASE_STORAGE_DB.collection('users')
-      .limit(10)
-      .get();
+  async search(): Promise<any> {
+    const result = await FIREBASE_STORAGE_DB.collection('users').get();
 
-    return result.docs.map(user => {
-      const userInfo = user.data();
-      delete userInfo.password;
-      return { id: user.id, ...userInfo };
-    });
+    return {
+      data: {
+        list: result.docs.map(user => {
+          const userInfo = user.data();
+          delete userInfo.password;
+          return { id: user.id, ...userInfo };
+        }),
+      },
+    };
   }
 }
