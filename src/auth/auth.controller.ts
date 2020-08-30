@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Res } from '@nestjs/common';
 import { LogInDto } from './dtos/log-in.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -9,7 +9,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  async login(@Body() logInDto: LogInDto) {
-    return this.authService.login(logInDto);
+  async login(@Body() logInDto: LogInDto, @Res() res) {
+    const result = await this.authService.login(logInDto);
+
+    return res.send(result);
   }
 }

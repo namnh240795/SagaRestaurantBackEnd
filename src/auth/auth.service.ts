@@ -17,7 +17,7 @@ export class AuthService {
       .get();
 
     if (users.empty) {
-      return strings.auth.loginFailed;
+      return { message: strings.auth.loginFailed };
     }
 
     const user = users.docs.map(user => {
@@ -31,11 +31,11 @@ export class AuthService {
     );
 
     if (!matchPassword) {
-      return strings.auth.loginFailed;
+      return { message: strings.auth.loginFailed };
     }
 
     delete user.password;
     const payload = { username: user.username, sub: user.userId };
-    return this.jwtService.sign(payload);
+    return { data: { token: this.jwtService.sign(payload) } };
   }
 }
