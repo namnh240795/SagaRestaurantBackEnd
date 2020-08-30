@@ -43,7 +43,6 @@ export class TagsService {
       data: {
         list: result.docs.map(tag => {
           const tagInfo = tag.data();
-          console.log(tagInfo);
           return { id: tag.id, ...tagInfo };
         }),
       },
