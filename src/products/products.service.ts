@@ -1,3 +1,4 @@
+import { CreateProductDto } from './dtos/create-product.dto';
 import { CreateProductSizeDto } from './dtos/create-product-size.dto';
 import { CreateProductColorDto } from './dtos/create-product-color.dto';
 import { strings } from 'src/strings';
@@ -15,6 +16,27 @@ export class ProductsService {
     this.getProductTypes();
     this.getProductColors();
     this.getProductSizes();
+  }
+
+  async createProduct(createProductDto: CreateProductDto) {
+    const productsRef = FIREBASE_STORAGE_DB.collection('products');
+
+    const result = await productsRef.add(createProductDto);
+
+    return { data: result.id };
+  }
+
+  async getProducts() {
+    const result = await FIREBASE_STORAGE_DB.collection('products').get();
+    return {
+      data: {
+        list: result.docs.map(product => {
+          const productInfo = product.data();
+          delete productInfo.password;
+          return { id: product.id, ...productInfo };
+        }),
+      },
+    };
   }
 
   async createProductType(createProductTypeDto: CreateProductTypeDto) {

@@ -24,6 +24,7 @@ export const strings = {
     deleteSuccess: 'Xoá công việc thàng công',
   },
   product: {
+    createProductSuccess: 'Tạo mặt hàng thành công',
     createProductTypeSuccess: 'Tạo loại mặt hàng thành công',
     createProductSizeSuccess: 'Tạo cỡ cho loại mặt hàng thành công',
     createProductColorSuccess: 'Tạo màu cho loại mặt hàng thành công',

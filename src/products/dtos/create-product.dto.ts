@@ -5,7 +5,13 @@ export class CreateProductDto {
   idProductSize: string;
 
   @ApiProperty()
+  productSize: string;
+
+  @ApiProperty()
   idProductColor: string;
+
+  @ApiProperty()
+  productColor: string;
 
   @ApiProperty()
   basePrice: number;
@@ -18,4 +24,7 @@ export class CreateProductDto {
 
   @ApiProperty()
   idProductType: string;
+
+  @ApiProperty()
+  productType: string;
 }

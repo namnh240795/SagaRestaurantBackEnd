@@ -1,3 +1,4 @@
+import { CreateProductDto } from './dtos/create-product.dto';
 import { CreateProductSizeDto } from './dtos/create-product-size.dto';
 import { CreateProductTypeDto } from './dtos/create-product-type.dto';
 import { ProductsService } from './products.service';
@@ -9,6 +10,16 @@ import { CreateProductColorDto } from './dtos/create-product-color.dto';
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
+
+  @Post()
+  async createProduct(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.createProduct(createProductDto);
+  }
+
+  @Get()
+  async getProduct() {
+    return this.productsService.getProducts();
+  }
 
   @Post('/types')
   async createProductType(@Body() createProductTypeDto: CreateProductTypeDto) {
