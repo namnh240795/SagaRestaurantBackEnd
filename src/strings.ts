@@ -23,4 +23,11 @@ export const strings = {
     updateSuccess: 'Cập nhật công việc thành công',
     deleteSuccess: 'Xoá công việc thàng công',
   },
+  product: {
+    createProductTypeSuccess: 'Tạo loại mặt hàng thành công',
+    createProductSizeSuccess: 'Tạo cỡ cho loại mặt hàng thành công',
+    createProductColorSuccess: 'Tạo màu cho loại mặt hàng thành công',
+    productTypeNotFound: 'Không tìm thấy loại mặt hàng',
+    removeProductTypeSuccess: 'Xoá loại mặt hàng thành công',
+  },
 };

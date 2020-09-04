@@ -4,13 +4,23 @@ import { UpdateOrderDto } from './dtos/update-order.dto';
 
 @Injectable()
 export class OrdersService {
-  createOrder(createOrderDto: CreateOrderDto) {}
+  createOrder(createOrderDto: CreateOrderDto) {
+    console.log(createOrderDto);
+  }
 
-  updateOrder(id: string, updateOrderDto: UpdateOrderDto) {}
+  updateOrder(id: string, updateOrderDto: UpdateOrderDto) {
+    console.log(updateOrderDto, id);
+  }
 
-  deleteOrder(id: string) {}
+  deleteOrder(id: string) {
+    console.log(id);
+  }
 
-  getOrderById(id: string) {}
+  getOrderById(id: string) {
+    console.log(id);
+  }
 
-  search(limit: Number, offset: Number) {}
+  search(limit: number, offset: number) {
+    console.log(limit, offset);
+  }
 }

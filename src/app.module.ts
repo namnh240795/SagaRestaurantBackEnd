@@ -11,14 +11,14 @@ import { TasksController } from './tasks/tasks.controller';
 import { TasksService } from './tasks/tasks.service';
 import { MessagesController } from './messages/messages.controller';
 import { MessagesService } from './messages/messages.service';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { RolesService } from './roles/roles.service';
 import { RolesController } from './roles/roles.controller';
+import { OrdersModule } from './orders/orders.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, OrdersModule, ProductsModule],
   controllers: [
     AppController,
     UsersController,

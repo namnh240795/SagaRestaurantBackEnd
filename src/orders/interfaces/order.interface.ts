@@ -1,6 +1,6 @@
 export interface Order {
   user_id: string;
-  amount: Number;
+  amount: number;
   note: string;
   address: string;
 }

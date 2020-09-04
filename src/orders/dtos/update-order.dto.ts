@@ -5,7 +5,7 @@ export class UpdateOrderDto {
   user_id: string;
 
   @ApiProperty()
-  amount: Number;
+  amount: number;
 
   @ApiProperty()
   note: string;
