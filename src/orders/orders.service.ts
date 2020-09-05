@@ -1,23 +1,56 @@
+import { strings } from 'src/strings';
 import { CreateOrderDto } from './dtos/create-order.dto';
 import { Injectable } from '@nestjs/common';
 import { UpdateOrderDto } from './dtos/update-order.dto';
+import FIREBASE_STORAGE_DB from 'src/firebase';
 
 @Injectable()
 export class OrdersService {
-  createOrder(createOrderDto: CreateOrderDto) {
-    console.log(createOrderDto);
+  async createOrder(createOrderDto: CreateOrderDto) {
+    const ordersRef = FIREBASE_STORAGE_DB.collection('orders');
+
+    const result = await ordersRef.add(createOrderDto);
+
+    return { data: result.id };
   }
 
-  updateOrder(id: string, updateOrderDto: UpdateOrderDto) {
-    console.log(updateOrderDto, id);
+  async updateOrder(id: string, updateOrderDto: UpdateOrderDto) {
+    const ordersRef = FIREBASE_STORAGE_DB.collection('orders').doc(id);
+
+    const order = await ordersRef.get();
+    if (!order.exists) {
+      return strings.order.notFound;
+    }
+
+    await ordersRef.update(updateOrderDto);
+
+    return strings.order.updateSuccess;
   }
 
-  deleteOrder(id: string) {
-    console.log(id);
+  async removeOrder(id: string) {
+    const orderRef = FIREBASE_STORAGE_DB.collection('orders').doc(id);
+
+    const order = await orderRef.get();
+    if (!order.exists) {
+      return strings.order.notFound;
+    }
+
+    await orderRef.delete();
+
+    return { data: strings.order.removeSuccess };
   }
 
-  getOrderById(id: string) {
-    console.log(id);
+  async getOrderById(id: string) {
+    const orderRef = FIREBASE_STORAGE_DB.collection('orders').doc(id);
+
+    const order = await orderRef.get();
+    if (!order.exists) {
+      return strings.order.notFound;
+    }
+
+    const orderInfo = order.data();
+
+    return { data: { ...orderInfo, id: order.id } };
   }
 
   search(limit: number, offset: number) {

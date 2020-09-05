@@ -31,4 +31,9 @@ export const strings = {
     productTypeNotFound: 'Không tìm thấy loại mặt hàng',
     removeProductTypeSuccess: 'Xoá loại mặt hàng thành công',
   },
+  order: {
+    notFound: 'Không tìm thấy đơn hàng',
+    updateSuccess: 'Cập nhật đơn hàng thành công',
+    removeSuccess: 'Xoá đơn hàng thành công',
+  },
 };

@@ -1,25 +1,45 @@
+import { UpdateOrderDto } from './dtos/update-order.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateOrderDto } from './dtos/create-order.dto';
 import {
   Controller,
+  Post,
+  Body,
+  Delete,
+  Get,
+  Param,
+  Put,
   // UseGuards
 } from '@nestjs/common';
+import { OrdersService } from './orders.service';
 // import { AuthGuard } from 'src/auth.guard';
 
+@ApiTags('orders')
 @Controller('orders')
 // @UseGuards(AuthGuard)
 export class OrdersController {
-  async createOrder() {
-    return null;
+  constructor(private ordersService: OrdersService) {}
+
+  @Post()
+  async createOrder(@Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.createOrder(createOrderDto);
   }
 
-  async updateOrder() {
-    return null;
+  @Put(':id')
+  async updateOrder(
+    @Param('id') id: string,
+    @Body() updateOrderDto: UpdateOrderDto,
+  ) {
+    return this.ordersService.updateOrder(id, updateOrderDto);
   }
 
-  async deleteOrder() {
-    return null;
+  @Delete()
+  async deleteOrder(id: string) {
+    return this.ordersService.removeOrder(id);
   }
 
-  async getOrder() {
-    return null;
+  @Get(':id')
+  async getOrderById(@Param('id') id: string) {
+    return this.ordersService.getOrderById(id);
   }
 }
