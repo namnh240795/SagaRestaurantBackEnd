@@ -1,21 +1,50 @@
-import { ApiProperty } from '@nestjs/swagger';
-// class OrderItemDto {
-//   product: {
-//     idProductSize: string;
-//     productSize: string;
-//     idProductColor: string;
-//     productColor: string;
-//     basePrice: number;
-//     sellPrice: number;
-//     name: string;
-//     idProductType: string;
-//     productType: string;
-//   };
-//   quantity: number;
-// }
+import { ApiProperty, ApiExtraModels } from '@nestjs/swagger';
 
-// class TagDto {}
+class OrderItemDto {
+  @ApiProperty()
+  idProductSize: string;
 
+  @ApiProperty()
+  productSize: string;
+
+  @ApiProperty()
+  idProductColor: string;
+
+  @ApiProperty()
+  productColor: string;
+
+  @ApiProperty()
+  basePrice: number;
+
+  @ApiProperty()
+  sellPrice: number;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  idProductType: string;
+
+  @ApiProperty()
+  productType: string;
+
+  @ApiProperty()
+  quantity: number;
+}
+
+class TagDto {
+  @ApiProperty()
+  idTag: string;
+
+  @ApiProperty()
+  tagName: string;
+
+  @ApiProperty()
+  tagColor: string;
+}
+
+@ApiExtraModels(TagDto)
+@ApiExtraModels(OrderItemDto)
 export class CreateOrderDto {
   @ApiProperty()
   idCreator: string;
@@ -41,9 +70,11 @@ export class CreateOrderDto {
   @ApiProperty()
   paymentType: string;
 
-  @ApiProperty()
-  tags: [];
+  @ApiProperty({ type: [TagDto] })
+  tags: TagDto[];
 
-  @ApiProperty()
-  items: [];
+  @ApiProperty({
+    type: [OrderItemDto],
+  })
+  items: OrderItemDto[];
 }
