@@ -32,7 +32,6 @@ export class ProductsService {
       data: {
         list: result.docs.map(product => {
           const productInfo = product.data();
-          delete productInfo.password;
           return { id: product.id, ...productInfo };
         }),
       },
@@ -56,11 +55,15 @@ export class ProductsService {
       id,
     );
     const productType = await productTypeRef.get();
+
     if (!productType.exists) {
       return { message: strings.product.productTypeNotFound };
     }
 
     await productTypeRef.delete();
+
+    this.productTypes = this.productTypes.filter(e => e.id !== id);
+
     return { data: strings.product.removeProductTypeSuccess };
   }
 
@@ -84,6 +87,7 @@ export class ProductsService {
     const newItem = await productSizesRef.doc(result.id).get();
 
     this.productSizes.push({ id: result.id, ...newItem.data() });
+
     return { data: strings.product.createProductSizeSuccess };
   }
 
@@ -101,6 +105,7 @@ export class ProductsService {
 
   async getProductColors() {
     const result = await FIREBASE_STORAGE_DB.collection('product_colors').get();
+
     this.productColors = result.docs.map(productColor => {
       const productColorInfo = productColor.data();
       return { id: productColor.id, ...productColorInfo };
@@ -109,6 +114,7 @@ export class ProductsService {
 
   async getProductSizes() {
     const result = await FIREBASE_STORAGE_DB.collection('product_sizes').get();
+
     this.productSizes = result.docs.map(productSize => {
       const productSizeInfo = productSize.data();
       return { id: productSize.id, ...productSizeInfo };
@@ -117,6 +123,7 @@ export class ProductsService {
 
   async getProductTypes() {
     const result = await FIREBASE_STORAGE_DB.collection('product_types').get();
+
     this.productTypes = result.docs.map(productType => {
       const productTypeInfo = productType.data();
       return { id: productType.id, ...productTypeInfo };
