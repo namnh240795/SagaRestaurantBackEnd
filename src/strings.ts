@@ -30,6 +30,8 @@ export const strings = {
     createProductColorSuccess: 'Tạo màu cho loại mặt hàng thành công',
     productTypeNotFound: 'Không tìm thấy loại mặt hàng',
     removeProductTypeSuccess: 'Xoá loại mặt hàng thành công',
+    removeProductSuccess: 'Xoá mặt hàng thành công',
+    productNotFound: 'Không tìm thấy sản phẩm',
   },
   order: {
     notFound: 'Không tìm thấy đơn hàng',

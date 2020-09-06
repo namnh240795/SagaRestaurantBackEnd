@@ -38,6 +38,19 @@ export class ProductsService {
     };
   }
 
+  async removeProduct(id: string) {
+    const productRef = FIREBASE_STORAGE_DB.collection('products').doc(id);
+    const product = await productRef.get();
+
+    if (!product.exists) {
+      return { message: strings.product.productNotFound };
+    }
+
+    await productRef.delete();
+
+    return { data: strings.product.removeProductSuccess };
+  }
+
   async createProductType(createProductTypeDto: CreateProductTypeDto) {
     const productTypesRef = FIREBASE_STORAGE_DB.collection('product_types');
 

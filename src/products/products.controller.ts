@@ -21,6 +21,11 @@ export class ProductsController {
     return this.productsService.getProducts();
   }
 
+  @Delete(':id')
+  async removeProduct(@Param('id') id: string) {
+    return this.productsService.removeProduct(id);
+  }
+
   @Post('/types')
   async createProductType(@Body() createProductTypeDto: CreateProductTypeDto) {
     return this.productsService.createProductType(createProductTypeDto);
