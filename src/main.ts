@@ -1,10 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ExpressAdapter } from '@nestjs/platform-express';
 
 import { AppModule } from './app.module';
+import express from 'express';
+import { FIREBASE_FUNCTIONS } from './firebase';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+const server = express();
+
+export const createServer = async expressInstance => {
+  const app = await NestFactory.create(
+    AppModule,
+    new ExpressAdapter(expressInstance),
+  );
 
   const options = new DocumentBuilder()
     .setTitle('My saga pattern backend API')
@@ -23,5 +31,10 @@ async function bootstrap() {
   });
 
   await app.listen(3000);
-}
-bootstrap();
+
+  return app.init();
+};
+
+createServer(server);
+
+export const api = FIREBASE_FUNCTIONS.https.onRequest(server);

@@ -1,6 +1,10 @@
+import serviceAccount from './resourcemanagement-a660d-firebase-adminsdk-3gjes-154fb5ea88.json';
+
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../credentials/resourcemanagement-a660d-firebase-adminsdk-3gjes-154fb5ea88.json');
+export const FIREBASE_FUNCTIONS = require('firebase-functions').region(
+  'asia-east2',
+);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
