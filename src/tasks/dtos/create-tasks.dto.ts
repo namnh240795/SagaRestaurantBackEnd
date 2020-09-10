@@ -1,4 +1,5 @@
 import { ApiProperty, ApiExtraModels } from '@nestjs/swagger';
+
 class MessageDto {
   @ApiProperty()
   message: string;
@@ -8,7 +9,7 @@ class MessageDto {
 }
 
 @ApiExtraModels(MessageDto)
-export class CreateTaskDto {
+class CreateTaskDto {
   @ApiProperty()
   phone: string;
 
@@ -20,4 +21,10 @@ export class CreateTaskDto {
 
   @ApiProperty({ type: [MessageDto] })
   messages: MessageDto[];
+}
+
+@ApiExtraModels(CreateTaskDto)
+export class CreateTasksDto {
+  @ApiProperty({ type: [CreateTaskDto] })
+  tasks: CreateTaskDto[];
 }

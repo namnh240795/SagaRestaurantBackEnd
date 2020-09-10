@@ -22,6 +22,8 @@ export const strings = {
     notFound: 'Không tìm thấy công việc',
     updateSuccess: 'Cập nhật công việc thành công',
     deleteSuccess: 'Xoá công việc thàng công',
+    tooManyItem: 'Upload quá nhiều(max 500 bản 1 lần thôi)',
+    batchSuccess: 'Thêm công việc thành công',
   },
   product: {
     createProductSuccess: 'Tạo mặt hàng thành công',

@@ -21,6 +21,7 @@ export const createServer = async expressInstance => {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
+
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
