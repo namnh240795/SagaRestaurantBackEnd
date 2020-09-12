@@ -18,7 +18,12 @@ export class UsersService {
     }
 
     const password = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);
-    const user = { ...createUserDto, password };
+    const user = {
+      ...createUserDto,
+      password,
+      idRole: 'RPa7CI38Y6ThW6l944GB',
+      role: 'STAFF',
+    };
     const result = await FIREBASE_STORAGE_DB.collection('users').add(user);
 
     return { data: result.id };
@@ -55,7 +60,9 @@ export class UsersService {
   }
 
   async search(): Promise<any> {
-    const result = await FIREBASE_STORAGE_DB.collection('users').get();
+    const result = await FIREBASE_STORAGE_DB.collection('users')
+      .where('role', '==', 'STAFF')
+      .get();
 
     return {
       data: {

@@ -6,7 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
 import { TasksModule } from './tasks/tasks.module';
 import { MessagesModule } from './messages/messages.module';
-import { RolesModule } from './roles/roles.module';
+// import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { RolesModule } from './roles/roles.module';
     TagsModule,
     TasksModule,
     MessagesModule,
-    RolesModule,
+    // RolesModule,
   ],
 })
 export class AppModule {}
