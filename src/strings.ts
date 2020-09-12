@@ -24,6 +24,8 @@ export const strings = {
     deleteSuccess: 'Xoá công việc thàng công',
     tooManyItem: 'Upload quá nhiều(max 500 bản 1 lần thôi)',
     batchSuccess: 'Thêm công việc thành công',
+    notEnoughTaskToAssign: 'Không có đủ công việc để giao',
+    assignSuccess: 'Giao việc thành công',
   },
   product: {
     createProductSuccess: 'Tạo mặt hàng thành công',

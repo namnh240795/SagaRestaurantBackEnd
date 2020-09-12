@@ -1,3 +1,4 @@
+import { AssignTasksDto } from './dtos/assign-tasks.dto';
 import { CreateTasksDto } from './dtos/create-tasks.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 // import { Task } from './interfaces/task.interface';
@@ -5,6 +6,7 @@ import { CreateTaskDto } from './dtos/create-task.dto';
 import { Injectable } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 import { strings } from 'src/strings';
+import { FilterAssignedDto } from './dtos/filter-assigned.dto';
 
 @Injectable()
 export class TasksService {
@@ -15,14 +17,85 @@ export class TasksService {
     return result.id;
   }
 
+  async getUnAssignedTask() {
+    const result = await FIREBASE_STORAGE_DB.collection('tasks')
+      .where('idUser', '==', null)
+      .get();
+
+    return {
+      total: result.docs.length,
+    };
+  }
+
+  async getByIdUser(query: FilterAssignedDto) {
+    const snapShot = FIREBASE_STORAGE_DB.collection('tasks');
+    let result;
+    if (!query.nextPage) {
+      result = await snapShot
+        .where('idUser', '==', query.idUser)
+        .limit(10)
+        .get();
+    } else {
+      const startAfterSnapshot = await FIREBASE_STORAGE_DB.collection('tasks')
+        .doc(query.nextPage)
+        .get();
+
+      result = await snapShot
+        .where('idUser', '==', query.idUser)
+        .startAfter(startAfterSnapshot)
+        .limit(10)
+        .get();
+    }
+
+    return {
+      data: {
+        list: result.docs.map(task => {
+          const taskInfo = task.data();
+          return { id: task.id, ...taskInfo };
+        }),
+        nextPage: result.docs[result.docs.length - 1].id,
+      },
+    };
+  }
+
+  async assignTasks(assignTasksDto: AssignTasksDto) {
+    const batch = FIREBASE_STORAGE_DB.batch();
+
+    const noneMatchingUserIdTasks = await FIREBASE_STORAGE_DB.collection(
+      'tasks',
+    )
+      .where('idUser', '==', null)
+      .limit(assignTasksDto.numberOfTask)
+      .get();
+
+    if (noneMatchingUserIdTasks.docs.length < assignTasksDto.numberOfTask) {
+      return { message: strings.task.notEnoughTaskToAssign };
+    }
+
+    noneMatchingUserIdTasks.docs.map(task => {
+      const taskId = task.id;
+      const newTaskRef = FIREBASE_STORAGE_DB.collection('tasks').doc(taskId);
+      batch.update(newTaskRef, { idUser: assignTasksDto.idUser });
+    });
+
+    await batch.commit();
+
+    return { data: strings.task.assignSuccess };
+  }
+
   async batch(createTasksDto: CreateTasksDto) {
     if (createTasksDto.tasks && createTasksDto.tasks.length > 500) {
       return { message: strings.task.tooManyItem };
     }
+
     const batch = FIREBASE_STORAGE_DB.batch();
 
     createTasksDto.tasks.forEach(task =>
-      FIREBASE_STORAGE_DB.collection('tasks').add(task),
+      FIREBASE_STORAGE_DB.collection('tasks').add({
+        ...task,
+        idUser: null,
+        idOrder: null,
+      }),
     );
 
     await batch.commit();
