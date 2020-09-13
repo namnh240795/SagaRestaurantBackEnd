@@ -37,7 +37,7 @@ export class AuthService {
     delete user.password;
     const payload = {
       username: user.username,
-      sub: user.userId,
+      id: user.id,
       role: user.role,
     };
     return { data: { token: this.jwtService.sign(payload) } };

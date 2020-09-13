@@ -3,7 +3,7 @@ import { UpdateTaskDto } from './dtos/update-task.dto';
 import { TasksService } from './tasks.service';
 import {
   Controller,
-  UseGuards,
+  // UseGuards,
   Post,
   Body,
   Put,
@@ -12,7 +12,7 @@ import {
   Get,
   Query,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth.guard';
+// import { AuthGuard } from 'src/auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { CreateTasksDto } from './dtos/create-tasks.dto';

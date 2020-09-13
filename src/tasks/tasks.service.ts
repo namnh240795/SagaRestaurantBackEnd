@@ -29,6 +29,7 @@ export class TasksService {
 
   async getByIdUser(query: FilterAssignedDto) {
     const snapShot = FIREBASE_STORAGE_DB.collection('tasks');
+
     let result;
     if (!query.nextPage) {
       result = await snapShot
@@ -45,6 +46,10 @@ export class TasksService {
         .startAfter(startAfterSnapshot)
         .limit(10)
         .get();
+    }
+
+    if (result.docs.length <= 0) {
+      return { data: { list: [], nextPage: null } };
     }
 
     return {
