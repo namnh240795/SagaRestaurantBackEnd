@@ -1,12 +1,10 @@
 import { CreateMessageDto } from './dtos/create-message.dto';
-import { Controller, UseGuards, Post, Body, Get } from '@nestjs/common';
-import { AuthGuard } from 'src/auth.guard';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('messages')
 @Controller('messages')
-@UseGuards(AuthGuard)
 export class MessagesController {
   constructor(private messagesService: MessagesService) {}
 

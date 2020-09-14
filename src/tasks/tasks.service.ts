@@ -27,13 +27,13 @@ export class TasksService {
     };
   }
 
-  async getByIdUser(query: FilterAssignedDto) {
+  async getByIdUser(query: FilterAssignedDto, user: any) {
     const snapShot = FIREBASE_STORAGE_DB.collection('tasks');
 
     let result;
     if (!query.nextPage) {
       result = await snapShot
-        .where('idUser', '==', query.idUser)
+        .where('idUser', '==', user.id)
         .limit(10)
         .get();
     } else {
@@ -42,7 +42,7 @@ export class TasksService {
         .get();
 
       result = await snapShot
-        .where('idUser', '==', query.idUser)
+        .where('idUser', '==', user.id)
         .startAfter(startAfterSnapshot)
         .limit(10)
         .get();

@@ -10,14 +10,14 @@ import {
   Put,
   Param,
   Delete,
-  // UseGuards,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-// import { AuthGuard } from 'src/auth.guard';
+import { JwtAuthGuard } from 'src/jwt-auth.guard';
 
 @ApiTags('tags')
 @Controller('tags')
-// @UseGuards(AuthGuard)
+@UseGuards(JwtAuthGuard)
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 

@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from '../jwt-auth.guard';
 import { UpdateUserPasswordDto } from './dtos/update-user.dto';
 import { User } from './interfaces/user.inteface';
 import {
@@ -9,6 +10,7 @@ import {
   Delete,
   // Query,
   Param,
+  UseGuards,
   // UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -17,11 +19,12 @@ import { ApiTags } from '@nestjs/swagger';
 // import { AuthGuard } from 'src/auth.guard';
 
 @ApiTags('users')
+@UseGuards(JwtAuthGuard)
 @Controller('users')
-// @UseGuards(AuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

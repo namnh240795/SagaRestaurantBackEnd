@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../jwt-auth.guard';
 import { AssignTasksDto } from './dtos/assign-tasks.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 import { TasksService } from './tasks.service';
@@ -11,16 +12,18 @@ import {
   Delete,
   Get,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 // import { AuthGuard } from 'src/auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { CreateTasksDto } from './dtos/create-tasks.dto';
 import { FilterAssignedDto } from './dtos/filter-assigned.dto';
+import { AuthUser } from 'src/AuthUser.decorator';
 
 @ApiTags('tasks')
+@UseGuards(JwtAuthGuard)
 @Controller('tasks')
-// @UseGuards(AuthGuard)
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
@@ -35,8 +38,11 @@ export class TasksController {
   }
 
   @Get('/assigned')
-  async getAssignedTasksByIdUser(@Query() query: FilterAssignedDto) {
-    return this.tasksService.getByIdUser(query);
+  async getAssignedTasksByIdUser(
+    @Query() query: FilterAssignedDto,
+    @AuthUser() user: any,
+  ) {
+    return this.tasksService.getByIdUser(query, user);
   }
 
   @Post('/assign')
