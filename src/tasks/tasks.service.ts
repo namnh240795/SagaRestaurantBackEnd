@@ -7,6 +7,7 @@ import { Injectable } from '@nestjs/common';
 import FIREBASE_STORAGE_DB from 'src/firebase';
 import { strings } from 'src/strings';
 import { FilterAssignedDto } from './dtos/filter-assigned.dto';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class TasksService {
@@ -100,6 +101,9 @@ export class TasksService {
         ...task,
         idUser: null,
         idOrder: null,
+        updateAt: dayjs(new Date()).unix(),
+        createdAt: dayjs(new Date()).unix(),
+        tags: [],
       }),
     );
 
