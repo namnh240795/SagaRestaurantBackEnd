@@ -1,6 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiExtraModels } from '@nestjs/swagger';
 
-export class UpdateTaskDto {
+class TagDto {
   @ApiProperty()
-  status: string;
+  name: string;
+
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  color: string;
+}
+
+@ApiExtraModels(TagDto)
+export class UpdateTaskDto {
+  @ApiProperty({ type: [TagDto] })
+  tags: TagDto[];
 }

@@ -146,13 +146,16 @@ export class TasksService {
       return strings.task.notFound;
     }
 
-    await taskRef.update(updateTaskDto);
+    await taskRef.update({
+      ...updateTaskDto,
+      updateAt: dayjs(new Date()).unix(),
+    });
 
     return strings.task.updateSuccess;
   }
 
   async removeTask(id: string) {
-    const taskRef = FIREBASE_STORAGE_DB.collection('roles').doc(id);
+    const taskRef = FIREBASE_STORAGE_DB.collection('tasks').doc(id);
     const task = await taskRef.get();
     if (!task.exists) {
       return strings.task.notFound;
