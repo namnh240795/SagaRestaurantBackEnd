@@ -43,9 +43,8 @@ class TagDto {
   tagColor: string;
 }
 
-@ApiExtraModels(TagDto)
 @ApiExtraModels(OrderItemDto)
-export class CreateOrderDto {
+class OrderDto {
   @ApiProperty()
   idCreator: string;
 
@@ -70,11 +69,17 @@ export class CreateOrderDto {
   @ApiProperty()
   paymentType: string;
 
-  @ApiProperty({ type: [TagDto] })
-  tags: TagDto[];
-
   @ApiProperty({
     type: [OrderItemDto],
   })
   items: OrderItemDto[];
+}
+
+@ApiExtraModels(TagDto)
+export class CreateOrderDto {
+  @ApiProperty()
+  order: OrderDto;
+
+  @ApiProperty({ type: [TagDto] })
+  tags: TagDto[];
 }

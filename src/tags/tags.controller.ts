@@ -41,7 +41,7 @@ export class TagsController {
     return this.tagsService.removeTag(id);
   }
 
-  @Roles('MANAGER')
+  @Roles('MANAGER', 'STAFF')
   @Get('/search')
   async findAll(): Promise<Tag[]> {
     return this.tagsService.getTags();

@@ -94,7 +94,7 @@ export class TasksService {
       return { message: strings.task.tooManyItem };
     }
 
-    const batch = FIREBASE_STORAGE_DB.batch();
+    const writeBatch = FIREBASE_STORAGE_DB.batch();
 
     createTasksDto.tasks.forEach(task =>
       FIREBASE_STORAGE_DB.collection('tasks').add({
@@ -107,7 +107,7 @@ export class TasksService {
       }),
     );
 
-    await batch.commit();
+    await writeBatch.commit();
 
     return { data: strings.task.batchSuccess };
   }
@@ -143,7 +143,7 @@ export class TasksService {
     const taskRef = FIREBASE_STORAGE_DB.collection('tasks').doc(id);
     const task = await taskRef.get();
     if (!task.exists) {
-      return strings.task.notFound;
+      return { message: strings.task.notFound };
     }
 
     await taskRef.update({
@@ -151,7 +151,7 @@ export class TasksService {
       updateAt: dayjs(new Date()).unix(),
     });
 
-    return strings.task.updateSuccess;
+    return { data: strings.task.updateSuccess };
   }
 
   async removeTask(id: string) {

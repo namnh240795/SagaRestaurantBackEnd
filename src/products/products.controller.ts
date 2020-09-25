@@ -29,7 +29,7 @@ export class ProductsController {
     return this.productsService.createProduct(createProductDto);
   }
 
-  @Roles('MANAGER')
+  @Roles('MANAGER', 'STAFF')
   @Get()
   async getProduct() {
     return this.productsService.getProducts();

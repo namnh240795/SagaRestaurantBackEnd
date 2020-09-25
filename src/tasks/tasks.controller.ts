@@ -60,7 +60,7 @@ export class TasksController {
     return this.tasksService.getUnAssignedTask();
   }
 
-  @Roles('MANAGER')
+  @Roles('MANAGER', 'STAFF')
   @Put(':id')
   async updateTask(
     @Param('id') id: string,
