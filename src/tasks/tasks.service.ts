@@ -29,25 +29,42 @@ export class TasksService {
   }
 
   async getByIdUser(query: FilterAssignedDto, user: any) {
-    const snapShot = FIREBASE_STORAGE_DB.collection('tasks');
+    let snapShot = FIREBASE_STORAGE_DB.collection('tasks').where(
+      'idUser',
+      '==',
+      user.id,
+    );
 
-    let result;
-    if (!query.nextPage) {
-      result = await snapShot
-        .where('idUser', '==', user.id)
-        .limit(10)
-        .get();
-    } else {
+    if (query.hasOrder === 'false') {
+      snapShot = snapShot.where('idOrder', '==', null);
+    }
+    if (query.hasOrder === 'true') {
+      snapShot = snapShot.where('idOrder', '!=', null);
+    }
+
+    if (query.phone_numbers) {
+      snapShot = snapShot.where('phone_numbers', '==', query.phone_numbers);
+    }
+
+    if (query.idsTag) {
+      if (typeof query.idsTag === 'string') {
+        snapShot = snapShot.where('idsTag', 'array-contains-any', [
+          query.idsTag,
+        ]);
+      } else {
+        snapShot = snapShot.where('idsTag', 'array-contains-any', query.idsTag);
+      }
+    }
+
+    if (query.nextPage) {
       const startAfterSnapshot = await FIREBASE_STORAGE_DB.collection('tasks')
         .doc(query.nextPage)
         .get();
 
-      result = await snapShot
-        .where('idUser', '==', user.id)
-        .startAfter(startAfterSnapshot)
-        .limit(10)
-        .get();
+      snapShot = snapShot.startAfter(startAfterSnapshot);
     }
+
+    const result = await snapShot.limit(10).get();
 
     if (result.docs.length <= 0) {
       return { data: { list: [], nextPage: null } };

@@ -20,26 +20,37 @@ export class AuthService {
       return { message: strings.auth.loginFailed };
     }
 
-    const user = users.docs.map(user => {
-      const userInfo = user.data();
-      return { id: user.id, ...userInfo };
-    })[0];
+    let userData = null;
+
+    users.docs.map(e => {
+      userData = { ...e.data() };
+      userData.id = e.id;
+    });
+
+    console.log(userData);
+
+    // const user = users.docs.map(user => {
+    //   const userInfo = user.data();
+    //   return { id: user.id, ...userInfo };
+    // })[0];
 
     const matchPassword = await bcrypt.compare(
       logInDto.password,
-      user.password,
+      userData.password,
     );
 
     if (!matchPassword) {
       return { message: strings.auth.loginFailed };
     }
 
-    delete user.password;
-    const payload = {
-      username: user.username,
-      id: user.id,
-      role: user.role,
+    return {
+      data: {
+        token: this.jwtService.sign({
+          username: userData.username,
+          id: userData.id,
+          role: userData.role,
+        }),
+      },
     };
-    return { data: { token: this.jwtService.sign(payload) } };
   }
 }

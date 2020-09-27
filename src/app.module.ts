@@ -5,7 +5,6 @@ import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
 import { TasksModule } from './tasks/tasks.module';
-import { MessagesModule } from './messages/messages.module';
 // import { RolesModule } from './roles/roles.module';
 
 @Module({
@@ -16,8 +15,6 @@ import { MessagesModule } from './messages/messages.module';
     UsersModule,
     TagsModule,
     TasksModule,
-    MessagesModule,
-    // RolesModule,
   ],
 })
 export class AppModule {}

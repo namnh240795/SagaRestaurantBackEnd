@@ -14,7 +14,7 @@ export class RolesService {
     return result.id;
   }
 
-  async search(): Promise<Role[]> {
+  async search() {
     const result = await FIREBASE_STORAGE_DB.collection('roles')
       .limit(10)
       .get();

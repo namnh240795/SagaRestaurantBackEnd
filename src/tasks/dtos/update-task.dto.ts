@@ -15,4 +15,7 @@ class TagDto {
 export class UpdateTaskDto {
   @ApiProperty({ type: [TagDto] })
   tags: TagDto[];
+
+  @ApiProperty()
+  idsTag: string[];
 }

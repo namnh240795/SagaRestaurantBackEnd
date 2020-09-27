@@ -3,6 +3,7 @@ import { CreateOrderDto } from './dtos/create-order.dto';
 import { Injectable } from '@nestjs/common';
 import { UpdateOrderDto } from './dtos/update-order.dto';
 import FIREBASE_STORAGE_DB from 'src/firebase';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class OrdersService {
@@ -16,6 +17,7 @@ export class OrdersService {
         ...createOrderDto.order,
         idCreator: user.id,
       },
+      createdTime: dayjs(new Date()).unix(),
     };
     const result = await ordersRef.add(addCreatorId);
     await tasksRef.doc(createOrderDto.idTask).update({

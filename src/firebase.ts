@@ -1,16 +1,17 @@
 import serviceAccount from './resourcemanagement-a660d-firebase-adminsdk-3gjes-154fb5ea88.json';
-
-const admin = require('firebase-admin');
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/functions';
 
 export const FIREBASE_FUNCTIONS = require('firebase-functions').region(
   'asia-east2',
 );
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+const app = firebase.initializeApp({
+  ...serviceAccount,
   databaseURL: 'https://resourcemanagement-a660d.firebaseio.com',
 });
 
-const FIREBASE_STORAGE_DB = admin.firestore();
+const FIREBASE_STORAGE_DB = firebase.firestore(app);
 
 export default FIREBASE_STORAGE_DB;
