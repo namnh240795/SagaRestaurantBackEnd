@@ -15,6 +15,7 @@ import {
 import { OrdersService } from './orders.service';
 import { JwtAuthGuard } from 'src/jwt-auth.guard';
 import { Roles } from 'src/Roles.decorator';
+import { AuthUser } from 'src/AuthUser.decorator';
 
 @ApiTags('orders')
 @Controller('orders')
@@ -24,8 +25,11 @@ export class OrdersController {
 
   @Roles('MANAGER', 'STAFF')
   @Post()
-  async createOrder(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.createOrder(createOrderDto);
+  async createOrder(
+    @Body() createOrderDto: CreateOrderDto,
+    @AuthUser() user: any,
+  ) {
+    return this.ordersService.createOrder(createOrderDto, user);
   }
 
   @Roles('MANAGER', 'STAFF')

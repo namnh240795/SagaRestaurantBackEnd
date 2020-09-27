@@ -78,6 +78,9 @@ class OrderDto {
 @ApiExtraModels(TagDto)
 export class CreateOrderDto {
   @ApiProperty()
+  idTask: string;
+
+  @ApiProperty()
   order: OrderDto;
 
   @ApiProperty({ type: [TagDto] })

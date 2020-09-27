@@ -6,10 +6,21 @@ import FIREBASE_STORAGE_DB from 'src/firebase';
 
 @Injectable()
 export class OrdersService {
-  async createOrder(createOrderDto: CreateOrderDto) {
+  async createOrder(createOrderDto: CreateOrderDto, user: any) {
     const ordersRef = FIREBASE_STORAGE_DB.collection('orders');
+    const tasksRef = FIREBASE_STORAGE_DB.collection('tasks');
 
-    const result = await ordersRef.add(createOrderDto);
+    const addCreatorId = {
+      ...createOrderDto,
+      order: {
+        ...createOrderDto.order,
+        idCreator: user.id,
+      },
+    };
+    const result = await ordersRef.add(addCreatorId);
+    await tasksRef.doc(createOrderDto.idTask).update({
+      idOrder: result.id,
+    });
 
     return { data: result.id };
   }
