@@ -11,17 +11,28 @@ import {
   Param,
   Put,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { JwtAuthGuard } from 'src/jwt-auth.guard';
 import { Roles } from 'src/Roles.decorator';
 import { AuthUser } from 'src/AuthUser.decorator';
+import { FilterOrderDto } from './dtos/filter-order.dto';
 
 @ApiTags('orders')
 @Controller('orders')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class OrdersController {
   constructor(private ordersService: OrdersService) {}
+
+  @Roles('STAFF')
+  @Get('/searchStaffOrder')
+  async getStaffOrder(
+    @Query() filterOrderDto: FilterOrderDto,
+    @AuthUser() user: any,
+  ) {
+    return this.ordersService.searchStaffOrder(filterOrderDto, user);
+  }
 
   @Roles('MANAGER', 'STAFF')
   @Post()

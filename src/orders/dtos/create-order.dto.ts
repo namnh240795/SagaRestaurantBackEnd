@@ -45,8 +45,22 @@ class TagDto {
 
 @ApiExtraModels(OrderItemDto)
 class OrderDto {
+  @ApiProperty({
+    type: [OrderItemDto],
+  })
+  items: OrderItemDto[];
+}
+
+@ApiExtraModels(TagDto)
+export class CreateOrderDto {
   @ApiProperty()
-  idCreator: string;
+  idTask: string;
+
+  @ApiProperty()
+  order: OrderDto;
+
+  @ApiProperty({ type: [TagDto] })
+  tags: TagDto[];
 
   @ApiProperty()
   phone: string;
@@ -68,21 +82,4 @@ class OrderDto {
 
   @ApiProperty()
   paymentType: string;
-
-  @ApiProperty({
-    type: [OrderItemDto],
-  })
-  items: OrderItemDto[];
-}
-
-@ApiExtraModels(TagDto)
-export class CreateOrderDto {
-  @ApiProperty()
-  idTask: string;
-
-  @ApiProperty()
-  order: OrderDto;
-
-  @ApiProperty({ type: [TagDto] })
-  tags: TagDto[];
 }
