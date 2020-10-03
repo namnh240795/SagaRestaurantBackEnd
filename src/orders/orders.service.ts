@@ -18,7 +18,7 @@ export class OrdersService {
       order: {
         ...createOrderDto.order,
       },
-      createdTime: dayjs(new Date()).unix(),
+      createdTime: dayjs(new Date()).unix() * 1000,
     };
     const result = await ordersRef.add(addCreatorId);
     await tasksRef.doc(createOrderDto.idTask).update({

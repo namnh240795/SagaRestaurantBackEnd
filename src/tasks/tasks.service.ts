@@ -118,8 +118,8 @@ export class TasksService {
         ...task,
         idUser: null,
         idOrder: null,
-        updateAt: dayjs(new Date()).unix(),
-        createdAt: dayjs(new Date()).unix(),
+        updateAt: dayjs(new Date()).unix() * 1000,
+        createdAt: dayjs(new Date()).unix() * 1000,
         tags: [],
       }),
     );
@@ -165,7 +165,7 @@ export class TasksService {
 
     await taskRef.update({
       ...updateTaskDto,
-      updateAt: dayjs(new Date()).unix(),
+      updateAt: dayjs(new Date()).unix() * 1000,
     });
 
     return { data: strings.task.updateSuccess };
